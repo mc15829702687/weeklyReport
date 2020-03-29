@@ -1,22 +1,50 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const Main = () => import('views/Main')
+const MyWeekReport = () => import('views/main/MyWeeklyReport')
+const shareMe = () => import('views/main/ShareMe')
+const setSharer = () => import('views/main/setSharer');
+
+const routes = [{
     path: '/',
-    name: 'Home',
-    component: Home
+    redirect: 'main'
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    name: 'main',
+    path: '/main',
+    component: Main,
+    children: [{
+        path: '/',
+        redirect: 'myWeeklyReport'
+      },
+      {
+        name: 'myWeeklyReport',
+        path: 'myWeeklyReport',
+        component: MyWeekReport,
+        meta: {
+          title: '我的周报'
+        }
+      },
+      {
+        name: 'shareMe',
+        path: 'shareMe',
+        component: shareMe,
+        meta: {
+          title: '分享给我的'
+        }
+      },
+      {
+        name: 'setSharer',
+        path: 'setSharer',
+        component: setSharer,
+        meta: {
+          title: '设置分享人'
+        }
+      }
+    ]
   }
 ]
 
